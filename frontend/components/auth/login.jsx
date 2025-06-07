@@ -27,15 +27,34 @@ export default function Login() {
         setError('');
 
         try {
-            // Simulated API call for demo
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            
-            // Simulate success/error randomly for demo
-            if (Math.random() > 0.3) {
-                console.log('Login successful!');
+            const response = await fetch('http://localhost:3001/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(`Login failed: ${errorMessage}`);
+            }
+
+            const data = await response.json();
+            if (data.refresh_token) {
+                localStorage.setItem('token', data.refresh_token);
+                localStorage.setItem('user_id', data.id);
+                localStorage.setItem('role', data.role);
+
+                if (rememberMe) {
+                    localStorage.setItem('savedEmail', email);
+                } else {
+                    localStorage.removeItem('savedEmail');
+                }
+
                 navigate('/Dashboard');
             } else {
-                throw new Error('Invalid credentials. Please try again.');
+                setError("Something went wrong. No token received.");
             }
         } catch (error) {
             setError(error.message || "Login failed. Please try again.");

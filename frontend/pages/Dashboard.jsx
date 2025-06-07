@@ -1,14 +1,14 @@
 import PlantStatus from "../components/dashboard/plantStatus";
-import sensorReading from "../components/dashboard/sensorReading";
-import soilMoisture from "../components/dashboard/soilMoisture";
+import SensorReading from "../components/dashboard/sensorReading";
+import SoilMoisture from "../components/dashboard/soilMoisture";
 
 export default function Dashboard() {
     return (
       <div className="font-montserrat h-auto">
           
-          <sensorReading/>
+          <SensorReading/>
           <PlantStatus/>
-          <soilMoisture/>
+          <SoilMoisture/>
       </div>
     )
   }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const sensorReading = () => {
+const SensorReading = () => {
   const [autoWatering, setAutoWatering] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -152,4 +152,4 @@ const sensorReading = () => {
   );
 };
 
-export default sensorReading;
+export default SensorReading;

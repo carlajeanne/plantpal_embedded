@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const soilMoisture = () => {
+const SoilMoisture = () => {
   const [hoveredPoint, setHoveredPoint] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const [isMobile, setIsMobile] = useState(false);
@@ -195,4 +195,4 @@ const soilMoisture = () => {
   );
 };
 
-export default soilMoisture;
+export default SoilMoisture;
