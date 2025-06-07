@@ -51,12 +51,8 @@ export const register = async (req, res) => {
 
         const userId = userResult.insertId;
 
-        // Fixed: Only pass the values you actually have
-        await connection.query(
-            "INSERT INTO user_account (user_id, full_name) VALUES (?, ?)",
-            [userId, full_name]  // Removed the undefined variables
-        );
-
+        // Removed the problematic second INSERT statement
+        
         res.status(201).json({ message: 'Registration successful. Please verify your account.', user_id: userId });
     } catch (error) {
         console.error('Registration error:', error);
@@ -65,7 +61,6 @@ export const register = async (req, res) => {
         if (connection) connection.end();
     }
 };
-
 export const login = async (req, res) => {
     let connection;
     try {

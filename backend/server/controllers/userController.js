@@ -21,10 +21,10 @@ export const getUsers = async (req, res) => {
 export const createUser = async (req, res) => {
     let connection;
     try {
-        const { email, password, name, contact_number, position, campus, college } = req.body;
+        const { email, password, full_name} = req.body;
         
         // Input validation
-        if (!email || !password || !name || !contact_number || !position || !campus || !college) {
+        if (!email || !password || !full_name) {
             return res.status(400).json({ error: 'All fields are required.' });
         }
 
