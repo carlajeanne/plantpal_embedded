@@ -7,11 +7,7 @@ export default function SignUp() {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
-        name: '',
-        contact_number: '',
-        position: '',
-        campus: '',
-        college: ''
+        full_name: ''
     });
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -42,29 +38,33 @@ export default function SignUp() {
         }
     };
 
+
     const handleFormSubmit = async (e) => {
-        if (e && e.preventDefault) e.preventDefault();
-        setIsLoading(true);
+        e.preventDefault();
 
         if (errorMessage) {
-            setErrorMessage('Please fix the errors in the form before submitting.');
-            setIsLoading(false);
-            setTimeout(() => setErrorMessage(''), 4000);
+            alert('Please fix the errors in the form before submitting.');
             return;
         }
 
         try {
-            // Simulated API call for demo
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            
-            // Simulate success
-            console.log('Registration successful!', formData);
-            navigate('/Dashboard');
+            const response = await fetch('http://localhost:3001/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                const responseData = await response.json();
+                localStorage.setItem("user_id", responseData.user_id);
+                navigate('/adminprofile');
+            } else {
+                alert('Registration failed. Please try again.');
+            }
         } catch (error) {
-            setErrorMessage('Registration failed. Please try again.');
-            setTimeout(() => setErrorMessage(''), 4000);
-        } finally {
-            setIsLoading(false);
+            alert('An error occurred. Please try again later.');
         }
     };
 
@@ -164,30 +164,11 @@ export default function SignUp() {
                                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                                 <input
                                     type="text"
-                                    name="name"
-                                    value={formData.name}
+                                    name="full_name"
+                                    value={formData.full_name}
                                     onChange={handleInputChange}
                                     className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm"
                                     placeholder="Enter your full name"
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        {/* Contact Number field */}
-                        <div className="space-y-2">
-                            <label className="block text-sm font-medium text-gray-200">
-                                Contact Number
-                            </label>
-                            <div className="relative">
-                                <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                <input
-                                    type="tel"
-                                    name="contact_number"
-                                    value={formData.contact_number}
-                                    onChange={handleInputChange}
-                                    className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm"
-                                    placeholder="123-456-7890"
                                     required
                                 />
                             </div>
@@ -198,6 +179,7 @@ export default function SignUp() {
                             type="submit"
                             disabled={isLoading}
                             className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-medium py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:transform-none shadow-lg mt-6"
+                            onClick={handleFormSubmit}
                         >
                             {isLoading ? (
                                 <div className="flex items-center justify-center space-x-2">

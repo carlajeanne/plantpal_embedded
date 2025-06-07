@@ -14,9 +14,9 @@ const createConnection = async (config) => {
 // Default database connection
 const mainDB = async () => {
     return createConnection({
-        host: process.env.MYSSQL_HOST,
+        host: process.env.MYSQL_HOST,
         user: process.env.MYSQL_USER,
-        password: process.env.MYSQL_PASS,
+        password: process.env.MYSQL_PASSWORD,
         database: process.env.MYSQL_DATABASE,
         connectionLimit: 10,
     });
