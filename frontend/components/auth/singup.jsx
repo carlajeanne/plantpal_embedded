@@ -59,7 +59,7 @@ export default function SignUp() {
             if (response.ok) {
                 const responseData = await response.json();
                 localStorage.setItem("user_id", responseData.user_id);
-                navigate('/adminprofile');
+                navigate('/Dashboard');
             } else {
                 alert('Registration failed. Please try again.');
             }
