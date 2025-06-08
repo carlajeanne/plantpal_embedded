@@ -7,7 +7,7 @@ import { mainDB } from './server/config/db.js';
 // Import your routes
 import authRoutes from './server/routes/auth.js';
 import userRoutes from './server/routes/user.js';
-import overviewRoutes from './server/routes/overview.js';
+import dashboardRoutes from './server/routes/dashboard.js';
 
 dotenv.config();
 
@@ -36,7 +36,7 @@ const startServer = async () => {
     // Define API Routes (using mainDB)
     app.use('/api/auth', authRoutes);
     app.use('/api/users', userRoutes);
-    app.use('/api/overview', overviewRoutes);
+    app.use('/api/dashboard', dashboardRoutes);
 
     // Start Server
     const PORT = process.env.PORT || 3001;
