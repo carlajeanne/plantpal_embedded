@@ -4,50 +4,47 @@ const SoilMoisture = () => {
   const [hoveredPoint, setHoveredPoint] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const [isMobile, setIsMobile] = useState(false);
+  const [chartSize, setChartSize] = useState({ width: 400, height: 300 });
 
-  // Check for mobile screen size
+  // Responsive sizing
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640);
+    const updateSize = () => {
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+      const width = screenWidth - 600; // Account for monitoring graph
+      const height = screenHeight - 400; // Account for summary cards
+      setChartSize({ width, height });
+      setIsMobile(screenWidth < 640);
     };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
   }, []);
 
-  // Mock data - replace with real data from your backend
   const data = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     values: [65, 59, 80, 81, 56, 55, 40],
   };
 
-  // Chart dimensions
-  const chartWidth = 320;
-  const chartHeight = 200;
-  const padding = { top: 20, right: 20, bottom: 40, left: 40 };
-  const innerWidth = chartWidth - padding.left - padding.right;
-  const innerHeight = chartHeight - padding.top - padding.bottom;
+  const padding = { top: 30, right: 40, bottom: 50, left: 50 };
+  const innerWidth = chartSize.width - padding.left - padding.right;
+  const innerHeight = chartSize.height - padding.top - padding.bottom;
 
-  // Scale functions
   const xScale = (index) => (index / (data.labels.length - 1)) * innerWidth;
   const yScale = (value) => innerHeight - (value / 100) * innerHeight;
 
-  // Generate path for the line
-  const generatePath = () => {
-    return data.values
+  const generatePath = () =>
+    data.values
       .map((value, index) => {
         const x = xScale(index);
         const y = yScale(value);
         return `${index === 0 ? 'M' : 'L'} ${x} ${y}`;
       })
       .join(' ');
-  };
 
-  // Generate grid lines
   const generateGridLines = () => {
     const lines = [];
-    // Horizontal grid lines (for y-axis)
     for (let i = 0; i <= 5; i++) {
       const y = (i / 5) * innerHeight;
       lines.push(
@@ -65,7 +62,6 @@ const SoilMoisture = () => {
     return lines;
   };
 
-  // Handle point hover
   const handlePointHover = (index, event) => {
     const rect = event.currentTarget.closest('svg').getBoundingClientRect();
     setHoveredPoint(index);
@@ -81,20 +77,23 @@ const SoilMoisture = () => {
 
   return (
     <div className="w-full h-full">
-      <h2 className={`font-semibold text-gray-900 mb-2 ${isMobile ? 'text-lg mb-1' : 'text-xl mb-2'}`}>
+      <h2 className={`font-semibold text-gray-900 mb-2 ${isMobile ? 'text-lg' : 'text-xl'}`}>
         Soil Moisture Trend
       </h2>
-      
-      <div className="relative w-full" style={{ height: isMobile ? 'calc(100% - 40px)' : 'calc(100% - 48px)' }}>
+
+      <div
+        className="relative w-full"
+        style={{ height: `${chartSize.height}px` }}
+      >
         <div className="w-full h-full flex items-center justify-center">
           <div className="relative">
             <svg
-              width={chartWidth}
-              height={chartHeight}
+              width={chartSize.width}
+              height={chartSize.height}
               className="overflow-visible"
-              viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+              viewBox={`0 0 ${chartSize.width} ${chartSize.height}`}
             >
-              {/* Chart area background */}
+              {/* Background */}
               <rect
                 x={padding.left}
                 y={padding.top}
@@ -102,15 +101,15 @@ const SoilMoisture = () => {
                 height={innerHeight}
                 fill="transparent"
               />
-              
+
               {/* Grid lines */}
               <g transform={`translate(${padding.left}, ${padding.top})`}>
                 {generateGridLines()}
               </g>
-              
+
               {/* Y-axis labels */}
               <g transform={`translate(${padding.left - 8}, ${padding.top})`}>
-                {[0, 20, 40, 60, 80, 100].map((value, index) => (
+                {[0, 20, 40, 60, 80, 100].map((value) => (
                   <text
                     key={value}
                     x={0}
@@ -122,9 +121,9 @@ const SoilMoisture = () => {
                   </text>
                 ))}
               </g>
-              
+
               {/* X-axis labels */}
-              <g transform={`translate(${padding.left}, ${chartHeight - padding.bottom + 16})`}>
+              <g transform={`translate(${padding.left}, ${chartSize.height - padding.bottom + 16})`}>
                 {data.labels.map((label, index) => (
                   <text
                     key={label}
@@ -137,8 +136,8 @@ const SoilMoisture = () => {
                   </text>
                 ))}
               </g>
-              
-              {/* Main line */}
+
+              {/* Line path */}
               <g transform={`translate(${padding.left}, ${padding.top})`}>
                 <path
                   d={generatePath()}
@@ -147,7 +146,7 @@ const SoilMoisture = () => {
                   strokeWidth="2"
                   className="drop-shadow-sm"
                 />
-                
+
                 {/* Data points */}
                 {data.values.map((value, index) => (
                   <circle
@@ -165,7 +164,7 @@ const SoilMoisture = () => {
                 ))}
               </g>
             </svg>
-            
+
             {/* Tooltip */}
             {hoveredPoint !== null && (
               <div
@@ -181,7 +180,6 @@ const SoilMoisture = () => {
                 <div className="text-sm text-gray-600">
                   Moisture: {data.values[hoveredPoint]}%
                 </div>
-                {/* Tooltip arrow */}
                 <div className="absolute top-full left-1/2 transform -translate-x-1/2">
                   <div className="border-4 border-transparent border-t-white"></div>
                   <div className="border-4 border-transparent border-t-gray-200 -mt-1"></div>
