@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Flower, Droplet, Sun, Thermometer } from 'lucide-react';
+import { Flower, Droplets} from 'lucide-react';
 
 const plantData = {
   moisture: 65,
@@ -70,23 +70,30 @@ const PlantStatus = () => {
 
   return (
    <div className="flex flex-col sm:flex-row gap-4 mt-0 sm:mt-20">
-      {/* Plant Overview Section */}
-      <div className="flex flex-col items-center sm:items-start text-center sm:text-left bg-white shadow-md rounded-xl p-4 sm:p-6 w-full sm:w-1/2">
-        <h2 className="text-lg sm:text-xl font-medium text-gray-900 mb-2">Plant Status Overview</h2>
-        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-4">
-          <div className="flex justify-center items-center w-20 h-20 sm:w-24 sm:h-24 text-green-600">
-            <Flower size={60} />
+     {/* 🌱 Plant Overview Section */}
+      <div className="flex flex-col items-center sm:items-start text-center sm:text-left bg-green-50 shadow-lg rounded-2xl p-6 w-full sm:w-1/2 border border-green-100 transition-all duration-300 hover:shadow-xl">
+        <h2 className="text-xl sm:text-2xl font-semibold text-green-800 mb-4">
+          🌿 Plant Status Overview
+        </h2>
+
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 w-full">
+          <div className="flex justify-center items-center w-24 h-24 bg-green-100 rounded-full shadow-inner animate-bounce-slow">
+            <Flower size={64} className="text-green-600 drop-shadow-md" />
           </div>
-          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-            <p className="text-base font-semibold text-green-600">{plantData.status}</p>
-            <p className="text-sm text-gray-500">Last checked: 5 minutes ago</p>
-            <p className="text-sm text-gray-500">Next watering: In 2 days</p>
+
+          <div className="flex flex-col items-center sm:items-start text-center sm:text-left space-y-1">
+            <span className="inline-block px-3 py-1 bg-green-200 text-green-800 text-sm font-bold rounded-full shadow-sm">
+              {plantData.status}
+            </span>
+            <p className="text-sm text-gray-600">🕒 Last checked: 5 minutes ago</p>
+            <p className="text-sm text-gray-600">💧 Next watering: In 2 days</p>
           </div>
         </div>
       </div>
 
+
       {/* Summary Card Section */}
-      <div className="bg-white shadow-md rounded-xl p-4 sm:p-6 space-y-4 border border-gray-100 w-full sm:w-1/2">
+      <div className="flex flex-col items-center sm:items-start text-center sm:text-left bg-blue-50 shadow-lg rounded-2xl p-6 w-full sm:w-1/2 border border-green-100 transition-all duration-300 hover:shadow-xl">
         <h3 className="text-md font-semibold text-gray-800">Watering Summary</h3>
 
         {/* Sensor Readings */}
@@ -107,7 +114,7 @@ const PlantStatus = () => {
 
         {/* Moisture */}
         <div className="flex items-center gap-2">
-          <Droplet className="text-blue-600" size={20} />
+          <Droplets className="text-blue-600 w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7" />
           <span className="font-medium text-gray-700">Moisture:</span>
           <span
             className="font-bold"
