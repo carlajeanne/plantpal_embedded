@@ -27,7 +27,7 @@ export default function Login() {
         setError('');
 
         try {
-            const response = await fetch('http://localhost:3001/api/auth/login', {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -43,8 +43,7 @@ export default function Login() {
             const data = await response.json();
             if (data.refresh_token) {
                 localStorage.setItem('token', data.refresh_token);
-                localStorage.setItem('user_id', data.id);
-                localStorage.setItem('role', data.role);
+                localStorage.setItem('user_id', data.id); 
 
                 if (rememberMe) {
                     localStorage.setItem('savedEmail', email);
