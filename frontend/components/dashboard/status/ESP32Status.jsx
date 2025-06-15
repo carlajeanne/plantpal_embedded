@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const ESP32Status = ({ isConnected, sensorData, onRefresh }) => {
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return 'No data available';
@@ -13,7 +14,7 @@ const ESP32Status = ({ isConnected, sensorData, onRefresh }) => {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-xl p-4 sm:p-6 border border-gray-100">
+     <div className="items-center sm:items-start text-center sm:text-left bg-red-50 shadow-lg rounded-2xl p-6 border border-red-100 transition-all duration-300 hover:shadow-xl">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-md font-semibold text-gray-800">ESP32 Status</h3>
         <button

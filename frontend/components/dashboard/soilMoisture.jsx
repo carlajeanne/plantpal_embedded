@@ -210,9 +210,9 @@ const SoilMoisture = () => {
 
   return (
     <div className="w-full h-full">
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-4 mt-3">
         <h2 className={`font-semibold text-gray-900 ${isMobile ? 'text-lg' : 'text-xl'}`}>
-          Soil Moisture Trend
+         🌱 Soil Moisture Trend
         </h2>
         
         <button
@@ -261,6 +261,15 @@ const SoilMoisture = () => {
                 className="overflow-visible"
                 viewBox={`0 0 ${chartSize.width} ${chartSize.height}`}
               >
+
+                {/* Gradient Definition */}
+            <defs>
+              <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#3b82f6" />
+                <stop offset="100%" stopColor="#a855f7" />
+              </linearGradient>
+            </defs>
+
                 {/* Background */}
                 <rect
                   x={padding.left}
@@ -311,9 +320,9 @@ const SoilMoisture = () => {
                     <path
                       d={generatePath()}
                       fill="none"
-                      stroke="#3b82f6"
-                      strokeWidth="2"
-                      className="drop-shadow-sm"
+                      stroke="url(#lineGradient)"
+                      strokeWidth="3"
+                      className="animate-[dash_2s_ease-in-out]"
                     />
                   </g>
                 )}
@@ -327,9 +336,10 @@ const SoilMoisture = () => {
                       cy={yScale(value)}
                       r={hoveredPoint === index ? 6 : 4}
                       fill="#3b82f6"
-                      stroke="white"
                       strokeWidth="2"
-                      className="cursor-pointer transition-all duration-200"
+                    className={`transition-all duration-150 shadow-md ${
+                    hoveredPoint === index ? 'shadow-blue-400' : ''
+                  }`}
                       onMouseEnter={(e) => handlePointHover(index, e)}
                       onMouseLeave={handlePointLeave}
                     />

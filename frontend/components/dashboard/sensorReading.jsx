@@ -61,33 +61,37 @@ const SensorReading = () => {
 
   const getStatusColor = (value) => {
     if (value <= 20) return 'text-red-500';
-    if (value <= 49) return 'text-orange-500';
-    if (value <= 65) return 'text-green-500';
-    if (value >= 85) return 'text-yellow-500';
+    if (value <= 29) return 'text-orange-500';
+    if (value <= 49) return 'text-yellow-500';
+    if (value <= 79) return 'text-green-500';
+    if (value >= 80) return 'text-blue-500';
     return 'text-gray-500';
   };
 
   const getMoistureBarColor = (value) => {
     if (value <= 20) return '#ef4444'; // red
-    if (value <= 49) return '#f97316'; // orange
-    if (value <= 65) return '#22c55e'; // green
-    if (value >= 85) return '#eab308'; // yellow
+    if (value <= 29) return '#f97316'; // orange
+    if (value <= 49) return '#FFFF00'; // yellow
+    if (value <= 79) return '#22c55e'; // green
+    if (value >= 80) return '#0000FF'; // blue
     return '#d1d5db'; // fallback gray
   };
 
   const getStatusDotColor = (value) => {
     if (value <= 20) return 'bg-red-500';
-    if (value <= 49) return 'bg-orange-500';
-    if (value <= 65) return 'bg-green-500';
-    if (value >= 85) return 'bg-yellow-400';
+    if (value <= 29) return 'bg-orange-500';
+    if (value <= 49) return 'bg-yellow-500';
+    if (value <= 79) return 'bg-green-500';
+    if (value >= 80) return 'bg-blue-400';
     return 'bg-gray-400';
   };
 
   const getStatusText = (value) => {
     if (value <= 20) return 'No Moisture';
+    if (value <= 29) return 'Too Dry';
     if (value <= 49) return 'Needs Watering';
-    if (value <= 65) return 'Normal';
-    if (value >= 85) return 'Over Moisture';
+    if (value <= 79) return 'Normal';
+    if (value >= 80) return 'Over Moisture';
     return 'Unknown';
   };
 
@@ -176,16 +180,20 @@ const SensorReading = () => {
         <div className={`w-full flex flex-col gap-1 ${isMobile ? 'items-center mt-4' : 'items-start mt-6'} sm:w-96`}>
           <div className="flex flex-col gap-1 text-sm">
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-yellow-400" />
-              <span>Over Moisture (85–100%)</span>
+              <span className="w-3 h-3 rounded-full bg-blue-400" />
+              <span>Over Moisture (80–100%)</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-green-500" />
-              <span>Normal (50–65%)</span>
+              <span>Normal (50–79%)</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full bg-yellow-500" />
+              <span>Needs Watering (30–49%)</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-orange-500" />
-              <span>Needs Watering (30–49%)</span>
+              <span>Too Dry (20–29%)</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-red-500" />

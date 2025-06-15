@@ -58,44 +58,50 @@ const WateringControls = ({
   );
 
   return (
-    <div className="bg-white shadow-md rounded-xl p-4 sm:p-6 border border-gray-100">
-      <h3 className="text-md font-semibold text-gray-800 mb-4">Watering Controls</h3>
-      
-      {/* Toggle + Action Button */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <ToggleSwitch
-          checked={autoWatering}
-          onChange={handleAutoWateringChange}
-          id="auto-watering-toggle"
-        />
-        <button
-          className={`px-4 py-2 rounded-lg text-white text-sm font-semibold transition ${
-            isWatering 
-              ? 'bg-green-600 animate-pulse cursor-not-allowed' 
-              : 'bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed'
-          }`}
-          onClick={handleWaterNow}
-          disabled={!isConnected || sensorData.loading || isWatering}
-        >
-          {isWatering ? '💧 Watering...' : sensorData.loading ? 'Loading...' : 'Water Now'}
-        </button>
-      </div>
-
-      {/* Status Info */}
-      <div className="mt-4 p-3 bg-gray-50 rounded-md">
-        <p className="text-sm text-gray-600">
-          <span className="font-medium">Auto-watering:</span> {autoWatering ? 'Enabled' : 'Disabled'}
-        </p>
-        <p className="text-sm text-gray-600 mt-1">
-          <span className="font-medium">System status:</span> {
-            isWatering ? 'Watering in progress...' :
-            !isConnected ? 'Offline' : 
-            sensorData.loading ? 'Loading...' : 
-            'Ready'
-          }
-        </p>
-      </div>
+    <div className="items-center sm:items-start text-center sm:text-left bg-blue-50 shadow-lg rounded-2xl p-6 border border-blue-100 transition-all duration-300 hover:shadow-xl">
+  <h3 className="text-md font-semibold text-gray-800 mb-4">Watering Controls</h3>
+  
+  {/* Toggle + Button + Status Info */}
+  <div className="flex flex-col sm:flex-row sm:justify-end sm:items-center sm:w-auto gap-10">
+    {/* Toggle + Button */}
+    <div className="flex flex-col sm:flex-row sm:items-center gap-10">
+      <ToggleSwitch
+        checked={autoWatering}
+        onChange={handleAutoWateringChange}
+        id="auto-watering-toggle"
+      />
+      <button
+        className={`px-10 py-3 rounded-lg text-white text-sm font-semibold whitespace-nowrap transition ${
+          isWatering 
+            ? 'bg-green-600 animate-pulse cursor-not-allowed' 
+            : 'bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed'
+        }`}
+        onClick={handleWaterNow}
+        disabled={!isConnected || sensorData.loading || isWatering}
+      >
+        {isWatering ? '💧 Watering...' : sensorData.loading ? 'Loading...' : 'Water Now'}
+      </button>
     </div>
+
+    {/* Status Info */}
+    <div className="p-3 bg-gray-50 rounded-md text-left">
+      <p className="text-sm text-gray-600">
+        <span className="font-medium">Auto-watering:</span> {autoWatering ? 'Enabled' : 'Disabled'}
+      </p>
+      <p className="text-sm text-gray-600 mt-1">
+        <span className="font-medium">System status:</span>{' '}
+        {isWatering
+          ? 'Watering in progress...'
+          : !isConnected
+          ? 'Offline'
+          : sensorData.loading
+          ? 'Loading...'
+          : 'Ready'}
+      </p>
+    </div>
+  </div>
+</div>
+
   );
 };
 
