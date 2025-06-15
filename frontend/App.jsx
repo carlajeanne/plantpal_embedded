@@ -6,6 +6,9 @@ import Login from './components/auth/login';
 import SignUp from "./components/auth/singup";
 import ForgotPassword from "./components/auth/ForgotPassword";
 
+
+
+
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -79,6 +82,7 @@ function App() {
         <Route path="/Login" element={isAuthenticated ? <Navigate to="/Dashboard" /> : <Login />} />
         <Route path="/SignUp" element={isAuthenticated ? <Navigate to="/Dashboard" /> : <SignUp />} />
         <Route path="/forgotPassword" element={isAuthenticated ? <Navigate to="/Dashboard" /> : <ForgotPassword />} />
+
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>

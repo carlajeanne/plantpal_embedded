@@ -1,5 +1,5 @@
 import React from 'react';
-import { Droplet, Flower } from 'lucide-react';
+import { Droplet, Flower, Droplets} from 'lucide-react';
 
 const MoistureDisplay = ({ sensorData, isConnected }) => {
   const getStatusColor = (value) => {
@@ -30,7 +30,7 @@ const MoistureDisplay = ({ sensorData, isConnected }) => {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-xl p-4 sm:p-6 border border-gray-100">
+     <div className="items-center sm:items-start text-center sm:text-left bg-green-50 shadow-lg rounded-2xl p-6 border border-green-100 transition-all duration-300 hover:shadow-xl">
       <h3 className="text-md font-semibold text-gray-800 mb-4">Plant Status</h3>
       
       {/* Plant Overview */}
@@ -79,7 +79,7 @@ const MoistureDisplay = ({ sensorData, isConnected }) => {
 
         {/* Water Need */}
         <div className="flex items-center gap-2">
-          <span className="text-yellow-600">💧</span>
+          <Droplets className="text-blue-600" size={20} />
           <span className="font-medium text-gray-700">Needs Water:</span>
           <span
             className="font-bold"
